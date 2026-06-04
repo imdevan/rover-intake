@@ -24,11 +24,12 @@ export function ShortInput({ id, value, onChange, invalid, type = "text", requir
         className={cn(
           "peer w-full rounded-xl border border-input bg-background/60 px-4 py-3 text-base font-normal text-foreground",
           "placeholder:text-muted-foreground/0",
-          "transition-all duration-200",
-          "focus:border-primary focus:bg-background focus:outline-none focus:ring-4 focus:ring-primary/15",
-          invalid && "border-destructive focus:border-destructive focus:ring-destructive/20",
+          "transition-all duration-300 focus:outline-none focus:bg-background focus:border-primary focus:shadow-[0_0_40px_-5px_color-mix(in_oklab,var(--primary)_45%,transparent)]",
+          invalid && "border-destructive focus:border-destructive",
         )}
       />
+      {/*
+          "focus:border-primary focus:bg-background focus:outline-none focus:ring-4 focus:ring-primary/15",
       <span
         aria-hidden="true"
         className={cn(
@@ -36,6 +37,8 @@ export function ShortInput({ id, value, onChange, invalid, type = "text", requir
           invalid && "from-destructive",
         )}
       />
+      */}
+
     </div>
   );
 }

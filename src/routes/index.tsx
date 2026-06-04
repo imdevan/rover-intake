@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ParallaxBackground } from "@/components/ParallaxBackground";
+import { Surface } from "@/components/Surface";
 import { IntakeForm } from "@/components/IntakeForm";
 import { Markdown } from "@/components/Markdown";
 import { questionsConfig } from "@/lib/questions";
@@ -29,26 +30,30 @@ function Home() {
     <div className="relative min-h-screen">
       <ParallaxBackground />
 
-      <header className="sticky top-0 z-20 flex items-center justify-between px-5 py-4 sm:px-8">
-        <div className="flex items-center gap-2 text-sm font-bold tracking-wide text-muted-foreground">
-          <span className="inline-block h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_color-mix(in_oklab,var(--primary)_70%,transparent)]" />
-          Rover Intake
-        </div>
+      <header className="sticky top-0 z-20 flex items-center justify-between px-5 py-3 sm:px-8">
+        <Surface className="inline-flex items-center p-2 sm:p-2">
+          <a
+            href="https://www.rover.com/members/devan-h-senior-small-and-doodle-dude/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-sm font-bold tracking-wide text-muted-foreground transition-colors hover:text-primary"
+          >
+            <span className="inline-block h-2 w-2 rounded-full bg-primary shadow-[0_0_12px_color-mix(in_oklab,var(--primary)_70%,transparent)]" />
+            back to my rover
+          </a>
+        </Surface>
         <ThemeToggle />
       </header>
 
       <main className="mx-auto w-full max-w-2xl px-5 pb-24 sm:px-8">
-        <section className="pt-[10vh] pb-10 sm:pt-[14vh]">
-          <h1 className="animate-fade-up text-left text-4xl font-[1000] leading-[1.05] tracking-tight text-foreground sm:text-6xl">
+        <Surface className="mt-[10vh] mb-10 sm:mt-[14vh]">
+          <h1 className="text-left text-4xl font-[1000] leading-[1.05] tracking-tight text-foreground sm:text-6xl">
             <Markdown inline>{questionsConfig.title}</Markdown>
           </h1>
-          <p
-            className="mt-5 max-w-xl animate-fade-up text-left text-base leading-relaxed text-muted-foreground sm:text-lg"
-            style={{ animationDelay: "120ms" }}
-          >
+          <p className="mt-5 max-w-xl text-left text-base leading-relaxed text-muted-foreground sm:text-lg">
             <Markdown inline>{questionsConfig.subtitle}</Markdown>
           </p>
-        </section>
+        </Surface>
 
         <IntakeForm />
       </main>

@@ -48,7 +48,7 @@
   --background: oklch(0.985 0.01 120);
   --foreground: oklch(0.18 0.02 160);
 
-  --surface: oklch(1 0 0 / 0.55);
+  --surface: oklch(1 0 0 / 0.94);
   --surface-foreground: oklch(0.18 0.02 160);
 
   --card: oklch(1 0 0);
@@ -112,10 +112,12 @@
   }
   html,
   body {
-    background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-color: var(--color-background);
   }
 }
 

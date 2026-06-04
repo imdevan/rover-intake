@@ -1,6 +1,6 @@
 import { type ReactNode } from "react";
 import { Markdown } from "@/components/Markdown";
-import { cn } from "@/lib/utils";
+import { Surface } from "@/components/Surface";
 
 interface FormFieldProps {
   id: string;
@@ -22,13 +22,9 @@ export function FormField({
   children,
 }: FormFieldProps) {
   return (
-    <section
+    <Surface
       data-testid={`field-${id}`}
-      className={cn(
-        "glass-surface animate-fade-up rounded-2xl p-6 sm:p-8",
-        "transition-shadow duration-300 hover:shadow-[0_18px_60px_-30px_color-mix(in_oklab,var(--primary)_45%,transparent)]",
-        error && "ring-2 ring-destructive/60",
-      )}
+      error={!!error}
       style={{ animationDelay: `${index * 70}ms` }}
     >
       <header className="mb-3">
@@ -59,6 +55,6 @@ export function FormField({
           {error}
         </p>
       )}
-    </section>
+    </Surface>
   );
 }

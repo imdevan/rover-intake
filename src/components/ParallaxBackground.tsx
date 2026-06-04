@@ -34,7 +34,7 @@ const CFG = {
   minRotation: -60,
   maxRotation: 60,
   minOpacity: 0.22,
-  maxOpacity: 0.75,
+  maxOpacity: 0.9,
   scrollMinMultiplier: 0.05,
   scrollMaxMultiplier: 0.35,
   scrollJitterMin: 0.8,
@@ -85,6 +85,7 @@ function generate(): PlacedIcon[] {
 
       const scaleNorm = (scale - CFG.minScale) / (CFG.maxScale - CFG.minScale);
       const opacity = CFG.minOpacity + scaleNorm * (CFG.maxOpacity - CFG.minOpacity);
+      // const opacity = 100;
       const baseSpeed =
         CFG.scrollMinMultiplier + scaleNorm * (CFG.scrollMaxMultiplier - CFG.scrollMinMultiplier);
       const jitter = CFG.scrollJitterMin + rng() * (CFG.scrollJitterMax - CFG.scrollJitterMin);
