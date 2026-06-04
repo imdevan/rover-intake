@@ -145,10 +145,9 @@ export function ParallaxBackground() {
             color: "var(--color-icon)",
             transform: `translate3d(0,0,0) rotate(${it.rotation}deg) scale(${it.scale})`,
           }}
-          dangerouslySetInnerHTML={{ svg: it.svg } as never}
-        >
-          {/* svg injected via dangerouslySetInnerHTML below */}
-        </div>
+          dangerouslySetInnerHTML={{ __html: it.svg }}
+        />
+
       ))}
     </div>
   );
