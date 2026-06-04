@@ -12,6 +12,17 @@ import { icon as renderIcon } from "@fortawesome/fontawesome-svg-core";
 
 const ICONS = [faDog, faBone, faPaw, faBowlFood, faBaseball, faStar, faRainbow];
 
+// Palette — pup-friendly, themed around the primary green.
+const COLORS = [
+  "#00bd70", // primary
+  "#06d6a0",
+  "#7ce0b0",
+  "#ffd166",
+  "#ef8354",
+  "#4cc9f0",
+  "#b388eb",
+];
+
 // Tunable ranges (no magic numbers in JSX)
 const CFG = {
   cols: 6,
@@ -22,15 +33,15 @@ const CFG = {
   scaleBias: 2.2, // > 1 weights toward smaller icons
   minRotation: -60,
   maxRotation: 60,
-  minOpacity: 0.18,
-  maxOpacity: 0.55,
+  minOpacity: 0.22,
+  maxOpacity: 0.75,
   scrollMinMultiplier: 0.05,
   scrollMaxMultiplier: 0.35,
   scrollJitterMin: 0.8,
   scrollJitterMax: 1.1,
 } as const;
 
-// Deterministic PRNG so we don't reshuffle on every render
+// Deterministic PRNG so SSR and client agree
 function mulberry32(seed: number) {
   let t = seed >>> 0;
   return () => {
@@ -43,22 +54,26 @@ function mulberry32(seed: number) {
 
 interface PlacedIcon {
   svg: string;
-  xPct: number;
-  yPct: number;
-  scale: number;
-  rotation: number;
-  opacity: number;
-  speed: number; // px per scroll px
+  xPct: string;
+  yPct: string;
+  scale: string;
+  rotation: string;
+  opacity: string;
+  color: string;
+  speed: number; // px per scroll px (kept as number for math, applied via JS only)
 }
 
+const fmt = (n: number, d = 3) => n.toFixed(d);
+
 function generate(): PlacedIcon[] {
-  const rng = mulberry32(0xb077e); // stable
+  const rng = mulberry32(0xb077e); // stable seed
   const out: PlacedIcon[] = [];
   const cellW = 100 / CFG.cols;
   const cellH = 100 / CFG.rows;
   for (let row = 0; row < CFG.rows; row++) {
     for (let col = 0; col < CFG.cols; col++) {
       const ic = ICONS[Math.floor(rng() * ICONS.length)];
+      const color = COLORS[Math.floor(rng() * COLORS.length)];
       const baseX = (col + 0.5) * cellW;
       const baseY = (row + 0.5) * cellH;
       const jx = (rng() - 0.5) * cellW * CFG.jitter * 2;
@@ -79,11 +94,12 @@ function generate(): PlacedIcon[] {
       if (!rendered) continue;
       out.push({
         svg: rendered.html.join(""),
-        xPct: baseX + jx,
-        yPct: baseY + jy,
-        scale,
-        rotation,
-        opacity,
+        xPct: fmt(baseX + jx) + "%",
+        yPct: fmt(baseY + jy) + "%",
+        scale: fmt(scale),
+        rotation: fmt(rotation, 2),
+        opacity: fmt(opacity),
+        color,
         speed,
       });
     }
@@ -108,8 +124,8 @@ export function ParallaxBackground() {
       for (let i = 0; i < nodes.length; i++) {
         const node = nodes[i];
         if (!node) continue;
-        const speed = items[i].speed;
-        node.style.transform = `translate3d(0, ${-y * speed}px, 0) rotate(${items[i].rotation}deg) scale(${items[i].scale})`;
+        const it = items[i];
+        node.style.transform = `translate3d(0, ${-(y * it.speed).toFixed(1)}px, 0) rotate(${it.rotation}deg) scale(${it.scale})`;
       }
     };
     const onScroll = () => {
@@ -128,6 +144,7 @@ export function ParallaxBackground() {
     <div
       ref={layerRef}
       aria-hidden="true"
+      data-testid="parallax-bg"
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary-soft/30" />
@@ -137,17 +154,16 @@ export function ParallaxBackground() {
           ref={(el) => {
             if (el) itemRefs.current[i] = el;
           }}
-          className="absolute flex h-12 w-12 items-center justify-center will-change-transform"
+          className="absolute flex h-12 w-12 items-center justify-center will-change-transform [&_svg]:h-full [&_svg]:w-full"
           style={{
-            left: `${it.xPct}%`,
-            top: `${it.yPct}%`,
+            left: it.xPct,
+            top: it.yPct,
             opacity: it.opacity,
-            color: "var(--color-icon)",
-            transform: `translate3d(0,0,0) rotate(${it.rotation}deg) scale(${it.scale})`,
+            color: it.color,
+            transform: `translate3d(0px, 0px, 0px) rotate(${it.rotation}deg) scale(${it.scale})`,
           }}
           dangerouslySetInnerHTML={{ __html: it.svg }}
         />
-
       ))}
     </div>
   );
