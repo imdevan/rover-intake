@@ -16,8 +16,8 @@ export function buildSchema(questions: Question[]) {
       s = q.required
         ? (s as z.ZodString).email({ message: "Enter a valid email." })
         : (s as z.ZodString).refine((v) => v === "" || /.+@.+\..+/.test(v), {
-            message: "Enter a valid email.",
-          });
+          message: "Enter a valid email.",
+        });
     }
     if (q.required) {
       s = z
