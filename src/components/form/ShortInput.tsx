@@ -24,7 +24,7 @@ export function ShortInput({ id, value, onChange, invalid, type = "text", requir
         className={cn(
           "peer w-full rounded-xl border border-input bg-background/60 px-4 py-3 text-base font-normal text-foreground",
           "placeholder:text-muted-foreground/0",
-          "transition-all duration-300 focus:outline-none focus:bg-background focus:border-primary focus:shadow-[0_0_40px_-5px_color-mix(in_oklab,var(--primary)_45%,transparent)]",
+          "transition-all duration-300 input-focus",
           invalid && "border-destructive focus:border-destructive",
         )}
       />

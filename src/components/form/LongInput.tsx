@@ -33,7 +33,7 @@ export function LongInput({ id, value, onChange, invalid, required }: LongInputP
       className={cn(
         "w-full resize-none rounded-xl border border-input bg-background/60 px-4 py-3 text-base font-normal text-foreground",
         "transition-all duration-200",
-        "focus:outline-none focus:border-primary focus:bg-background focus:shadow-[0_0_40px_-5px_color-mix(in_oklab,var(--primary)_45%,transparent)]",
+        "input-focus",
         invalid && "border-destructive focus:border-destructive focus:ring-destructive/20",
       )}
     />

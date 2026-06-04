@@ -33,7 +33,7 @@ export function Checkboxes({ id, options, value, onChange, invalid }: Checkboxes
               className={cn(
                 "group flex cursor-pointer items-start gap-3 rounded-xl border border-input bg-background/40 px-4 py-3 transition-all duration-200",
                 "hover:border-primary/60 hover:bg-primary-soft/40",
-                "has-[:focus-visible]:border-primary has-[:focus-visible]:shadow-[0_0_40px_-5px_color-mix(in_oklab,var(--primary)_45%,transparent)]",
+                "input-focus-within",
                 checked && "border-primary bg-primary-soft/60",
                 invalid && !checked && "border-destructive/50",
               )}

@@ -121,6 +121,18 @@
   }
 }
 
+@utility input-focus {
+  @apply focus:outline-none focus:border-primary;
+  /* @apply focus:outline-none focus:border-primary focus:bg-background focus:shadow-[0_2px_16px_-5px_color-mix(in_oklab,var(--primary)_45%,transparent)]; */
+}
+
+@utility input-focus-within {
+  &:has(:focus-visible) {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 40px -5px color-mix(in oklab, var(--primary) 45%, transparent);
+  }
+}
+
 @utility glass-surface {
   background: var(--surface);
   backdrop-filter: blur(14px) saturate(140%);
