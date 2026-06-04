@@ -32,7 +32,9 @@
         "Doggie Bed *(cleaned between sittings)*",
         "Couch *(covered, cleaned between sittings)*",
         "Hide and Seek plush dog puzzle toy *(cleaned between sittings)*",
-        "Charlee Bear dog treats — [nutrition info](https://www.amazon.com/Charlee-Bear-Treats-Beef-Liver/dp/B07G6XZNJ5/?th=1) (low cal healthy treats, sourced from Trader Joe's)"
+        "Charlee Bear dog treats — [nutrition info](https://www.amazon.com/Charlee-Bear-Treats-Beef-Liver/dp/B07G6XZNJ5/?th=1) (low cal healthy treats, sourced from Trader Joe's)",
+        "All of the above",
+        "None of the above"
       ]
     },
     {
@@ -47,12 +49,12 @@
       "title": "Walk Schedule",
       "description": "Normally will go on a 4ish hour walk schedule in addition to watching for signs from your pupper. Let me know if your dog has special needs or \"I need potty\" indicators."
     },
-    {
-      "id": "email",
-      "type": "short",
-      "title": "Email",
-      "description": "*Optional* — leave one if you'd like a copy of your submission.",
-      "inputType": "email"
-    }
+    // {
+    // "id": "email",
+    // "type": "short",
+    // "title": "Email",
+    // "description": "*Optional* — leave one if you'd like a copy of your submission.",
+    // "inputType": "email"
+    // }
   ]
 }
