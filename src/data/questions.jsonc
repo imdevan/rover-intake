@@ -1,0 +1,58 @@
+// Rover intake form questions. Strings support **markdown**.
+{
+  "title": "Thanks for boarding with me!",
+  "subtitle": "Thank you so much for choosing me to watch your special pal! This form just helps me provide the best service to your furry family member.",
+  "submitUrl": "https://broken-sea-f9d4.huapayadevan.workers.dev/",
+  "questions": [
+    {
+      "id": "petName",
+      "type": "short",
+      "title": "Pet name",
+      "required": true
+    },
+    {
+      "id": "feedingSchedule",
+      "type": "long",
+      "title": "Feeding schedule",
+      "description": "*(If not in pet profile)*"
+    },
+    {
+      "id": "behaviors",
+      "type": "long",
+      "title": "Behaviors",
+      "description": "*(if not in pet profile)*\n\nAny behaviors to note? Anxiety? Reactiveness to dogs?\n\nThese are not deal breakers, just helpful to know!"
+    },
+    {
+      "id": "amenities",
+      "type": "checkboxes",
+      "title": "Amenities",
+      "description": "I ask that pup parents provide food (and plenty of treats!) for the duration of their dogs stay.\n\nWe have some amenities that are available, but **will not be used without consent** from you, the owner.",
+      "required": true,
+      "options": [
+        "Doggie Bed *(cleaned between sittings)*",
+        "Couch *(covered, cleaned between sittings)*",
+        "Hide and Seek plush dog puzzle toy *(cleaned between sittings)*",
+        "Charlee Bear dog treats — [nutrition info](https://www.amazon.com/Charlee-Bear-Treats-Beef-Liver/dp/B07G6XZNJ5/?th=1) (low cal healthy treats, sourced from Trader Joe's)"
+      ]
+    },
+    {
+      "id": "cues",
+      "type": "long",
+      "title": "Cues / Commands",
+      "description": "How do you communicate with your dog on the daily? Do you use any cues other than the standard \"good\" \"sit\" \"stay\"?"
+    },
+    {
+      "id": "walkSchedule",
+      "type": "long",
+      "title": "Walk Schedule",
+      "description": "Normally will go on a 4ish hour walk schedule in addition to watching for signs from your pupper. Let me know if your dog has special needs or \"I need potty\" indicators."
+    },
+    {
+      "id": "email",
+      "type": "short",
+      "title": "Email",
+      "description": "*Optional* — leave one if you'd like a copy of your submission.",
+      "inputType": "email"
+    }
+  ]
+}
