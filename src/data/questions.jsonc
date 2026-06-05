@@ -33,8 +33,8 @@
         "Couch *(covered, cleaned between sittings)*",
         "Hide and Seek plush dog puzzle toy *(cleaned between sittings)*",
         "Charlee Bear dog treats — [nutrition info](https://www.amazon.com/Charlee-Bear-Treats-Beef-Liver/dp/B07G6XZNJ5/?th=1) (low cal healthy treats, sourced from Trader Joe's)",
-        "All of the above",
-        "None of the above"
+        { "label": "All of the above", "singular": true },
+        { "label": "None of the above", "singular": true }
       ]
     },
     {

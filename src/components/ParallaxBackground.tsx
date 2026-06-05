@@ -25,12 +25,12 @@ const COLORS = [
 
 // Tunable ranges (no magic numbers in JSX)
 const CFG = {
-  cols: 6,
-  rows: 12,
-  jitter: 0.45, // 0..1 of a cell
+  cols: 8,
+  rows: 24,
+  jitter: 0.5, // 0..1 of a cell
   minScale: 0.5,
-  maxScale: 2,
-  scaleBias: 2.2, // > 1 weights toward smaller icons
+  maxScale: 2.4,
+  scaleBias: 2.0, // top-of-page exponent (>1 = smaller); bottom uses 1/scaleBias
   minRotation: -60,
   maxRotation: 60,
   minOpacity: 0.22,
@@ -79,7 +79,12 @@ function generate(): PlacedIcon[] {
       const jx = (rng() - 0.5) * cellW * CFG.jitter * 2;
       const jy = (rng() - 0.5) * cellH * CFG.jitter * 2;
 
-      const t = Math.pow(rng(), CFG.scaleBias); // bias to small
+      // Bias scale toward larger values as we move down the page so big
+      // icons cluster near the bottom and small icons near the top.
+      const rowNorm = CFG.rows > 1 ? row / (CFG.rows - 1) : 0;
+      // Lower exponent toward bottom => skews rng() toward 1 (larger).
+      const sizeExp = CFG.scaleBias * (1 - rowNorm) + (1 / CFG.scaleBias) * rowNorm;
+      const t = Math.pow(rng(), sizeExp);
       const scale = CFG.minScale + t * (CFG.maxScale - CFG.minScale);
       const rotation = CFG.minRotation + rng() * (CFG.maxRotation - CFG.minRotation);
 
@@ -117,7 +122,13 @@ export function ParallaxBackground() {
     let raf = 0;
     let currentY = window.scrollY;
     let targetY = currentY;
-    const EASE = 0.12; // lerp factor for smoothing momentum scroll
+    const EASE = 0.12;
+
+    const updateHeight = () => {
+      if (layerRef.current) {
+        layerRef.current.style.height = `${document.documentElement.scrollHeight}px`;
+      }
+    };
 
     const render = (y: number) => {
       const nodes = itemRefs.current;
@@ -147,40 +158,50 @@ export function ParallaxBackground() {
       if (!raf) raf = requestAnimationFrame(loop);
     };
 
+    updateHeight();
     render(currentY);
+    const ro = new ResizeObserver(updateHeight);
+    ro.observe(document.documentElement);
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateHeight);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateHeight);
+      ro.disconnect();
       if (raf) cancelAnimationFrame(raf);
     };
   }, [items]);
 
-
   return (
-    <div
-      ref={layerRef}
-      aria-hidden="true"
-      data-testid="parallax-bg"
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary-soft/30" />
-      {items.map((it, i) => (
-        <div
-          key={i}
-          ref={(el) => {
-            if (el) itemRefs.current[i] = el;
-          }}
-          className="absolute flex h-12 w-12 items-center justify-center will-change-transform [&_svg]:h-full [&_svg]:w-full"
-          style={{
-            left: it.xPct,
-            top: it.yPct,
-            opacity: it.opacity,
-            color: it.color,
-            transform: `translate3d(0px, 0px, 0px) rotate(${it.rotation}deg) scale(${it.scale})`,
-          }}
-          dangerouslySetInnerHTML={{ __html: it.svg }}
-        />
-      ))}
-    </div>
+    <>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-20 bg-gradient-to-b from-background via-background to-primary-soft/30"
+      />
+      <div
+        ref={layerRef}
+        aria-hidden="true"
+        data-testid="parallax-bg"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-hidden"
+      >
+        {items.map((it, i) => (
+          <div
+            key={i}
+            ref={(el) => {
+              if (el) itemRefs.current[i] = el;
+            }}
+            className="absolute flex h-12 w-12 items-center justify-center will-change-transform [&_svg]:h-full [&_svg]:w-full"
+            style={{
+              left: it.xPct,
+              top: it.yPct,
+              opacity: it.opacity,
+              color: it.color,
+              transform: `rotate(${it.rotation}deg) scale(${it.scale})`,
+            }}
+            dangerouslySetInnerHTML={{ __html: it.svg }}
+          />
+        ))}
+      </div>
+    </>
   );
 }

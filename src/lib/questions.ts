@@ -19,9 +19,14 @@ export interface LongQuestion extends BaseQuestion {
   type: "long";
 }
 
+export interface CheckboxOption {
+  label: string;
+  singular?: boolean;
+}
+
 export interface CheckboxesQuestion extends BaseQuestion {
   type: "checkboxes";
-  options: string[];
+  options: CheckboxOption[];
 }
 
 export type Question = ShortQuestion | LongQuestion | CheckboxesQuestion;
@@ -77,4 +82,27 @@ function stripJsonc(input: string): string {
   return out.replace(/,(\s*[}\]])/g, "$1");
 }
 
-export const questionsConfig: QuestionsConfig = JSON.parse(stripJsonc(raw)) as QuestionsConfig;
+interface RawConfig extends Omit<QuestionsConfig, "questions"> {
+  questions: Array<
+    | ShortQuestion
+    | LongQuestion
+    | (Omit<CheckboxesQuestion, "options"> & {
+        options: Array<string | CheckboxOption>;
+      })
+  >;
+}
+
+const parsed = JSON.parse(stripJsonc(raw)) as RawConfig;
+
+export const questionsConfig: QuestionsConfig = {
+  ...parsed,
+  questions: parsed.questions.map((q) => {
+    if (q.type !== "checkboxes") return q;
+    return {
+      ...q,
+      options: q.options.map((o) =>
+        typeof o === "string" ? { label: o } : o,
+      ),
+    };
+  }),
+};
