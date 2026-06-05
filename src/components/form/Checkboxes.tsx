@@ -1,19 +1,34 @@
 import { Check } from "lucide-react";
 import { Markdown } from "@/components/Markdown";
 import { cn } from "@/lib/utils";
+import type { CheckboxOption } from "@/lib/questions";
 
 interface CheckboxesProps {
   id: string;
-  options: string[];
+  options: CheckboxOption[];
   value: string[];
   onChange: (v: string[]) => void;
   invalid?: boolean;
 }
 
 export function Checkboxes({ id, options, value, onChange, invalid }: CheckboxesProps) {
-  const toggle = (opt: string) => {
-    if (value.includes(opt)) onChange(value.filter((v) => v !== opt));
-    else onChange([...value, opt]);
+  const toggle = (opt: CheckboxOption) => {
+    const isChecked = value.includes(opt.label);
+    if (isChecked) {
+      onChange(value.filter((v) => v !== opt.label));
+      return;
+    }
+    // Selecting a singular option clears everything else.
+    if (opt.singular) {
+      onChange([opt.label]);
+      return;
+    }
+    // Selecting any non-singular option deselects all singular options.
+    const singularLabels = new Set(
+      options.filter((o) => o.singular).map((o) => o.label),
+    );
+    const next = value.filter((v) => !singularLabels.has(v));
+    onChange([...next, opt.label]);
   };
 
   return (
@@ -24,10 +39,10 @@ export function Checkboxes({ id, options, value, onChange, invalid }: Checkboxes
       className="flex flex-col gap-2"
     >
       {options.map((opt, i) => {
-        const checked = value.includes(opt);
+        const checked = value.includes(opt.label);
         const optId = `${id}-${i}`;
         return (
-          <li key={opt}>
+          <li key={opt.label}>
             <label
               htmlFor={optId}
               className={cn(
@@ -64,7 +79,7 @@ export function Checkboxes({ id, options, value, onChange, invalid }: Checkboxes
                 />
               </span>
               <span className="text-sm leading-relaxed text-foreground sm:text-base">
-                <Markdown inline>{opt}</Markdown>
+                <Markdown inline>{opt.label}</Markdown>
               </span>
             </label>
           </li>
