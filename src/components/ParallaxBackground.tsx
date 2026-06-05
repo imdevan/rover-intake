@@ -115,31 +115,46 @@ export function ParallaxBackground() {
 
   useEffect(() => {
     let raf = 0;
-    let lastY = -1;
-    const tick = () => {
-      raf = 0;
-      const y = window.scrollY;
-      if (y === lastY) return;
-      lastY = y;
+    let currentY = window.scrollY;
+    let targetY = currentY;
+    const EASE = 0.12; // lerp factor for smoothing momentum scroll
+
+    const render = (y: number) => {
       const nodes = itemRefs.current;
       for (let i = 0; i < nodes.length; i++) {
         const node = nodes[i];
         if (!node) continue;
         const it = items[i];
-        node.style.transform = `translate3d(0, ${-(y * it.speed).toFixed(1)}px, 0) rotate(${it.rotation}deg) scale(${it.scale})`;
+        node.style.transform = `translate3d(0, ${(-(y * it.speed)).toFixed(2)}px, 0) rotate(${it.rotation}deg) scale(${it.scale})`;
       }
     };
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(tick);
+
+    const loop = () => {
+      const diff = targetY - currentY;
+      if (Math.abs(diff) < 0.05) {
+        currentY = targetY;
+        render(currentY);
+        raf = 0;
+        return;
+      }
+      currentY += diff * EASE;
+      render(currentY);
+      raf = requestAnimationFrame(loop);
     };
-    tick();
+
+    const onScroll = () => {
+      targetY = window.scrollY;
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+
+    render(currentY);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
       if (raf) cancelAnimationFrame(raf);
     };
   }, [items]);
+
 
   return (
     <div
