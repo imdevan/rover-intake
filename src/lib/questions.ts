@@ -19,9 +19,14 @@ export interface LongQuestion extends BaseQuestion {
   type: "long";
 }
 
+export interface CheckboxOption {
+  label: string;
+  singular?: boolean;
+}
+
 export interface CheckboxesQuestion extends BaseQuestion {
   type: "checkboxes";
-  options: string[];
+  options: CheckboxOption[];
 }
 
 export type Question = ShortQuestion | LongQuestion | CheckboxesQuestion;
