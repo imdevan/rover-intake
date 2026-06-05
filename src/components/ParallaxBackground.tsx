@@ -25,12 +25,12 @@ const COLORS = [
 
 // Tunable ranges (no magic numbers in JSX)
 const CFG = {
-  cols: 6,
-  rows: 12,
-  jitter: 0.45, // 0..1 of a cell
+  cols: 8,
+  rows: 24,
+  jitter: 0.5, // 0..1 of a cell
   minScale: 0.5,
-  maxScale: 2,
-  scaleBias: 2.2, // > 1 weights toward smaller icons
+  maxScale: 2.4,
+  scaleBias: 1.0, // 1.0 = uniform distribution of sizes
   minRotation: -60,
   maxRotation: 60,
   minOpacity: 0.22,
