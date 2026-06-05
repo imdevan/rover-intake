@@ -30,7 +30,7 @@ const CFG = {
   jitter: 0.5, // 0..1 of a cell
   minScale: 0.5,
   maxScale: 2.4,
-  scaleBias: 1.0, // 1.0 = uniform distribution of sizes
+  scaleBias: 2.0, // top-of-page exponent (>1 = smaller); bottom uses 1/scaleBias
   minRotation: -60,
   maxRotation: 60,
   minOpacity: 0.22,
