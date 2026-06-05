@@ -117,7 +117,13 @@ export function ParallaxBackground() {
     let raf = 0;
     let currentY = window.scrollY;
     let targetY = currentY;
-    const EASE = 0.12; // lerp factor for smoothing momentum scroll
+    const EASE = 0.12;
+
+    const updateHeight = () => {
+      if (layerRef.current) {
+        layerRef.current.style.height = `${document.documentElement.scrollHeight}px`;
+      }
+    };
 
     const render = (y: number) => {
       const nodes = itemRefs.current;
@@ -147,40 +153,50 @@ export function ParallaxBackground() {
       if (!raf) raf = requestAnimationFrame(loop);
     };
 
+    updateHeight();
     render(currentY);
+    const ro = new ResizeObserver(updateHeight);
+    ro.observe(document.documentElement);
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateHeight);
     return () => {
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateHeight);
+      ro.disconnect();
       if (raf) cancelAnimationFrame(raf);
     };
   }, [items]);
 
-
   return (
-    <div
-      ref={layerRef}
-      aria-hidden="true"
-      data-testid="parallax-bg"
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-primary-soft/30" />
-      {items.map((it, i) => (
-        <div
-          key={i}
-          ref={(el) => {
-            if (el) itemRefs.current[i] = el;
-          }}
-          className="absolute flex h-12 w-12 items-center justify-center will-change-transform [&_svg]:h-full [&_svg]:w-full"
-          style={{
-            left: it.xPct,
-            top: it.yPct,
-            opacity: it.opacity,
-            color: it.color,
-            transform: `translate3d(0px, 0px, 0px) rotate(${it.rotation}deg) scale(${it.scale})`,
-          }}
-          dangerouslySetInnerHTML={{ __html: it.svg }}
-        />
-      ))}
-    </div>
+    <>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-20 bg-gradient-to-b from-background via-background to-primary-soft/30"
+      />
+      <div
+        ref={layerRef}
+        aria-hidden="true"
+        data-testid="parallax-bg"
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-hidden"
+      >
+        {items.map((it, i) => (
+          <div
+            key={i}
+            ref={(el) => {
+              if (el) itemRefs.current[i] = el;
+            }}
+            className="absolute flex h-12 w-12 items-center justify-center will-change-transform [&_svg]:h-full [&_svg]:w-full"
+            style={{
+              left: it.xPct,
+              top: it.yPct,
+              opacity: it.opacity,
+              color: it.color,
+              transform: `rotate(${it.rotation}deg) scale(${it.scale})`,
+            }}
+            dangerouslySetInnerHTML={{ __html: it.svg }}
+          />
+        ))}
+      </div>
+    </>
   );
 }
