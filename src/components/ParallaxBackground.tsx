@@ -79,7 +79,12 @@ function generate(): PlacedIcon[] {
       const jx = (rng() - 0.5) * cellW * CFG.jitter * 2;
       const jy = (rng() - 0.5) * cellH * CFG.jitter * 2;
 
-      const t = Math.pow(rng(), CFG.scaleBias); // bias to small
+      // Bias scale toward larger values as we move down the page so big
+      // icons cluster near the bottom and small icons near the top.
+      const rowNorm = CFG.rows > 1 ? row / (CFG.rows - 1) : 0;
+      // Lower exponent toward bottom => skews rng() toward 1 (larger).
+      const sizeExp = CFG.scaleBias * (1 - rowNorm) + (1 / CFG.scaleBias) * rowNorm;
+      const t = Math.pow(rng(), sizeExp);
       const scale = CFG.minScale + t * (CFG.maxScale - CFG.minScale);
       const rotation = CFG.minRotation + rng() * (CFG.maxRotation - CFG.minRotation);
 
