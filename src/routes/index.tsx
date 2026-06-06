@@ -4,6 +4,12 @@ import { ParallaxBackground } from "@/components/ParallaxBackground";
 import { Surface } from "@/components/Surface";
 import { IntakeForm } from "@/components/IntakeForm";
 import { Markdown } from "@/components/Markdown";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { questionsConfig } from "@/lib/questions";
 
 export const Route = createFileRoute("/")({
