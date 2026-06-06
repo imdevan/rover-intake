@@ -58,16 +58,23 @@ export function FormField({
         <header className="flex-1">
           <label
             htmlFor={collapsible ? undefined : id}
-            className="flex items-baseline gap-1.5 text-lg font-bold text-foreground sm:text-xl"
+            className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 text-lg font-bold text-foreground sm:text-xl"
           >
-            <Markdown inline>{title}</Markdown>
-            {required && (
-              <span aria-hidden="true" className="text-primary">
-                *
+            <span className="inline-flex items-baseline gap-1.5">
+              <Markdown inline>{title}</Markdown>
+              {required && (
+                <span aria-hidden="true" className="text-primary">
+                  *
+                </span>
+              )}
+            </span>
+            {hint && (
+              <span className="text-sm font-normal text-muted-foreground [&_em]:not-italic">
+                <Markdown inline>{hint}</Markdown>
               </span>
             )}
           </label>
-          {description && (
+          {description && !collapsible && (
             <div className="mt-1.5 text-sm leading-relaxed text-muted-foreground [&_strong]:text-foreground">
               <Markdown>{description}</Markdown>
             </div>
