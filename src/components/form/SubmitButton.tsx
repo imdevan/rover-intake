@@ -18,7 +18,7 @@ export const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
         disabled={loading || disabled}
         aria-busy={loading || undefined}
         className={cn(
-          "group relative inline-flex h-14 w-full items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-8 text-lg font-bold text-primary-foreground transition-all duration-300",
+          "group relative inline-flex h-14 w-full cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-2xl bg-primary px-8 text-lg font-bold text-primary-foreground transition-all duration-300",
           "shadow-[0_10px_40px_-10px_color-mix(in_oklab,var(--primary)_55%,transparent)]",
           "hover:scale-[1.01] hover:shadow-[0_18px_60px_-12px_color-mix(in_oklab,var(--primary)_70%,transparent)]",
           "active:scale-[0.99]",
