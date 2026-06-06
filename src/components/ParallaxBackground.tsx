@@ -25,7 +25,9 @@ const COLORS = [
 
 // Tunable ranges (no magic numbers in JSX)
 const CFG = {
-  cols: 8,
+  pxPerCol: 180, // viewport px per column → fewer icons on narrow screens
+  minCols: 3,
+  maxCols: 10,
   rows: 24,
   jitter: 0.5, // 0..1 of a cell
   minScale: 0.5,
@@ -40,6 +42,7 @@ const CFG = {
   scrollJitterMin: 0.8,
   scrollJitterMax: 1.1,
 } as const;
+
 
 // Deterministic PRNG so SSR and client agree
 function mulberry32(seed: number) {
