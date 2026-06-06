@@ -14,7 +14,15 @@
       "id": "feedingSchedule",
       "type": "long",
       "title": "Feeding schedule",
-      "description": "*(If not in pet profile)*"
+      "description": "*(If not in pet profile)*",
+      "collapsible": true
+    },
+    {
+      "id": "behaviors",
+      "type": "long",
+      "title": "Behaviors",
+      "description": "*(if not in pet profile)*\n\nAny behaviors to note? Anxiety? Reactiveness to dogs?\n\nThese are not deal breakers, just helpful to know!",
+      "collapsible": true
     },
     {
       "id": "behaviors",
