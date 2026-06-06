@@ -7,6 +7,7 @@ export interface BaseQuestion {
   type: QuestionType;
   title: string;
   description?: string;
+  hint?: string;
   required?: boolean;
   collapsible?: boolean;
 }
