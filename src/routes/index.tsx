@@ -52,7 +52,7 @@ function Home() {
       </header>
 
       <main className="mx-auto w-full max-w-2xl px-5 pb-24 sm:px-8">
-        <Surface className="mt-[10vh] mb-10 sm:mt-[14vh]">
+        <Surface className="mt-[6vh] mb-10 sm:mt-[8vh]">
           <h1 className="text-left text-4xl font-[1000] leading-[1.05] tracking-tight text-foreground sm:text-6xl">
             <Markdown inline>{questionsConfig.title}</Markdown>
           </h1>
@@ -66,13 +66,17 @@ function Home() {
                   <TooltipTrigger asChild>
                     <span
                       tabIndex={0}
-                      className="inline-flex cursor-help items-center text-sm font-bold text-foreground/90 underline decoration-dotted decoration-muted-foreground/60 underline-offset-4 transition-colors hover:text-primary"
+                      className="inline-flex items-center text-sm font-bold text-foreground/90 underline decoration-dotted decoration-muted-foreground/60 underline-offset-4 transition-colors hover:text-primary"
                     >
                       <Markdown inline>{questionsConfig.titleFooter}</Markdown>
                     </span>
                   </TooltipTrigger>
                   {questionsConfig.titleFooterTooltip && (
-                    <TooltipContent side="bottom" className="max-w-xs">
+                    <TooltipContent
+                      side="bottom"
+                      showArrow
+                      className="glass-surface max-w-xs rounded-xl border border-primary/40 bg-primary-soft/70 px-3 py-2 text-xs text-foreground shadow-[0_10px_30px_-10px_color-mix(in_oklab,var(--primary)_45%,transparent)]"
+                    >
                       {questionsConfig.titleFooterTooltip}
                     </TooltipContent>
                   )}
@@ -81,6 +85,7 @@ function Home() {
             </div>
           )}
         </Surface>
+
 
         <IntakeForm />
       </main>
