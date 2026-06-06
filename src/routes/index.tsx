@@ -59,6 +59,27 @@ function Home() {
           <p className="mt-5 max-w-xl text-left text-base leading-relaxed text-muted-foreground sm:text-lg">
             <Markdown inline>{questionsConfig.subtitle}</Markdown>
           </p>
+          {questionsConfig.titleFooter && (
+            <div className="mt-5">
+              <TooltipProvider delayDuration={150}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span
+                      tabIndex={0}
+                      className="inline-flex cursor-help items-center text-sm font-bold text-foreground/90 underline decoration-dotted decoration-muted-foreground/60 underline-offset-4 transition-colors hover:text-primary"
+                    >
+                      <Markdown inline>{questionsConfig.titleFooter}</Markdown>
+                    </span>
+                  </TooltipTrigger>
+                  {questionsConfig.titleFooterTooltip && (
+                    <TooltipContent side="bottom" className="max-w-xs">
+                      {questionsConfig.titleFooterTooltip}
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          )}
         </Surface>
 
         <IntakeForm />
