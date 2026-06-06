@@ -1,6 +1,8 @@
 // Rover intake form questions. Strings support **markdown**.
 {
   "title": "Thanks for boarding with me!",
+  "titleFooter": "💛 Devan H.",
+  "titleFooterTooltip": "I made this little survey for fun on my own. Not affiliated with Rover.",
   "subtitle": "Thank you so much for choosing me to watch your special pal! This form just helps me provide the best service to your furry family member.",
   "submitUrl": "https://broken-sea-f9d4.huapayadevan.workers.dev/",
   "questions": [
@@ -9,20 +11,6 @@
       "type": "short",
       "title": "Pet name",
       "required": true
-    },
-    {
-      "id": "feedingSchedule",
-      "type": "long",
-      "title": "Feeding schedule",
-      "description": "*(If not in pet profile)*",
-      "collapsible": true
-    },
-    {
-      "id": "behaviors",
-      "type": "long",
-      "title": "Behaviors",
-      "description": "*(if not in pet profile)*\n\nAny behaviors to note? Anxiety? Reactiveness to dogs?\n\nThese are not deal breakers, just helpful to know!",
-      "collapsible": true
     },
     {
       "id": "amenities",
@@ -40,9 +28,25 @@
       ]
     },
     {
+      "id": "feedingSchedule",
+      "type": "long",
+      "title": "Feeding schedule",
+      "hint": "*(if not in rover profile)*",
+      "collapsible": true
+    },
+    {
+      "id": "behaviors",
+      "type": "long",
+      "title": "Behaviors",
+      "hint": "*(if not in rover profile)*",
+      "description": "Any behaviors to note? Anxiety? Reactiveness to dogs?\n\nThese are not deal breakers, just helpful to know!",
+      "collapsible": true
+    },
+    {
       "id": "cues",
       "type": "long",
       "title": "Cues / Commands",
+      "hint": "*(if not in rover profile)*",
       "description": "How do you communicate with your dog on the daily? Do you use any cues other than the standard \"good\" \"sit\" \"stay\"?",
       "collapsible": true
     },
@@ -50,6 +54,7 @@
       "id": "walkSchedule",
       "type": "long",
       "title": "Walk Schedule",
+      "hint": "*(if not in rover profile)*",
       "description": "Normally will go on a 4ish hour walk schedule in addition to watching for signs from your pupper. Let me know if your dog has special needs or \"I need potty\" indicators.",
       "collapsible": true
     },

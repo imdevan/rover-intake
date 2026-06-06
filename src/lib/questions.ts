@@ -7,6 +7,7 @@ export interface BaseQuestion {
   type: QuestionType;
   title: string;
   description?: string;
+  hint?: string;
   required?: boolean;
   collapsible?: boolean;
 }
@@ -34,6 +35,8 @@ export type Question = ShortQuestion | LongQuestion | CheckboxesQuestion;
 
 export interface QuestionsConfig {
   title: string;
+  titleFooter?: string;
+  titleFooterTooltip?: string;
   subtitle: string;
   submitUrl: string;
   questions: Question[];
