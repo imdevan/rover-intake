@@ -20,6 +20,7 @@ export function FormField({
   id,
   title,
   description,
+  hint,
   required,
   collapsible,
   error,
@@ -28,6 +29,7 @@ export function FormField({
 }: FormFieldProps) {
   const [open, setOpen] = useState(false);
   const expanded = !collapsible || open;
+  const showDescription = description && (!collapsible || expanded);
   const contentId = `${id}-content`;
 
   const HeaderTag = collapsible ? "button" : "div";
