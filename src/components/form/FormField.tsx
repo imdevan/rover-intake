@@ -103,7 +103,14 @@ export function FormField({
             : "mt-0 grid-rows-[0fr] opacity-0",
         )}
       >
-        <div className="min-h-0 overflow-hidden">{children}</div>
+        <div className="min-h-0 overflow-hidden">
+          {description && collapsible && (
+            <div className="mb-3 text-sm leading-relaxed text-muted-foreground [&_strong]:text-foreground">
+              <Markdown>{description}</Markdown>
+            </div>
+          )}
+          {children}
+        </div>
       </div>
 
       {error && (
