@@ -68,13 +68,13 @@ interface PlacedIcon {
 
 const fmt = (n: number, d = 3) => n.toFixed(d);
 
-function generate(): PlacedIcon[] {
+function generate(cols: number): PlacedIcon[] {
   const rng = mulberry32(0xb077e); // stable seed
   const out: PlacedIcon[] = [];
-  const cellW = 100 / CFG.cols;
+  const cellW = 100 / cols;
   const cellH = 100 / CFG.rows;
   for (let row = 0; row < CFG.rows; row++) {
-    for (let col = 0; col < CFG.cols; col++) {
+    for (let col = 0; col < cols; col++) {
       const ic = ICONS[Math.floor(rng() * ICONS.length)];
       const color = COLORS[Math.floor(rng() * COLORS.length)];
       const baseX = (col + 0.5) * cellW;
@@ -82,10 +82,7 @@ function generate(): PlacedIcon[] {
       const jx = (rng() - 0.5) * cellW * CFG.jitter * 2;
       const jy = (rng() - 0.5) * cellH * CFG.jitter * 2;
 
-      // Bias scale toward larger values as we move down the page so big
-      // icons cluster near the bottom and small icons near the top.
       const rowNorm = CFG.rows > 1 ? row / (CFG.rows - 1) : 0;
-      // Lower exponent toward bottom => skews rng() toward 1 (larger).
       const sizeExp = CFG.scaleBias * (1 - rowNorm) + (1 / CFG.scaleBias) * rowNorm;
       const t = Math.pow(rng(), sizeExp);
       const scale = CFG.minScale + t * (CFG.maxScale - CFG.minScale);
@@ -93,7 +90,6 @@ function generate(): PlacedIcon[] {
 
       const scaleNorm = (scale - CFG.minScale) / (CFG.maxScale - CFG.minScale);
       const opacity = CFG.minOpacity + scaleNorm * (CFG.maxOpacity - CFG.minOpacity);
-      // const opacity = 100;
       const baseSpeed =
         CFG.scrollMinMultiplier + scaleNorm * (CFG.scrollMaxMultiplier - CFG.scrollMinMultiplier);
       const jitter = CFG.scrollJitterMin + rng() * (CFG.scrollJitterMax - CFG.scrollJitterMin);
@@ -116,10 +112,24 @@ function generate(): PlacedIcon[] {
   return out;
 }
 
+function computeCols(width: number): number {
+  const raw = Math.round(width / CFG.pxPerCol);
+  return Math.max(CFG.minCols, Math.min(CFG.maxCols, raw));
+}
+
 export function ParallaxBackground() {
   const layerRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<HTMLDivElement[]>([]);
-  const items = useMemo(generate, []);
+  const [cols, setCols] = useState(() =>
+    typeof window === "undefined" ? CFG.minCols : computeCols(window.innerWidth),
+  );
+  useEffect(() => {
+    const onResize = () => setCols(computeCols(window.innerWidth));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+  const items = useMemo(() => generate(cols), [cols]);
+
 
   useEffect(() => {
     let raf = 0;
