@@ -8,6 +8,7 @@ interface FormFieldProps {
   id: string;
   title: string;
   description?: string;
+  hint?: string;
   required?: boolean;
   collapsible?: boolean;
   error?: string;
