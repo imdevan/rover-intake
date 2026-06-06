@@ -8,6 +8,7 @@ export interface BaseQuestion {
   title: string;
   description?: string;
   required?: boolean;
+  collapsible?: boolean;
 }
 
 export interface ShortQuestion extends BaseQuestion {
