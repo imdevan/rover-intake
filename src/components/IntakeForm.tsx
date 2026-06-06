@@ -144,6 +144,7 @@ export function IntakeForm() {
             id={q.id}
             title={q.title}
             description={q.description}
+            hint={q.hint}
             required={q.required}
             collapsible={q.collapsible}
             error={error}
