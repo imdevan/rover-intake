@@ -25,12 +25,6 @@
       "collapsible": true
     },
     {
-      "id": "behaviors",
-      "type": "long",
-      "title": "Behaviors",
-      "description": "*(if not in pet profile)*\n\nAny behaviors to note? Anxiety? Reactiveness to dogs?\n\nThese are not deal breakers, just helpful to know!"
-    },
-    {
       "id": "amenities",
       "type": "checkboxes",
       "title": "Amenities",
@@ -49,13 +43,15 @@
       "id": "cues",
       "type": "long",
       "title": "Cues / Commands",
-      "description": "How do you communicate with your dog on the daily? Do you use any cues other than the standard \"good\" \"sit\" \"stay\"?"
+      "description": "How do you communicate with your dog on the daily? Do you use any cues other than the standard \"good\" \"sit\" \"stay\"?",
+      "collapsible": true
     },
     {
       "id": "walkSchedule",
       "type": "long",
       "title": "Walk Schedule",
-      "description": "Normally will go on a 4ish hour walk schedule in addition to watching for signs from your pupper. Let me know if your dog has special needs or \"I need potty\" indicators."
+      "description": "Normally will go on a 4ish hour walk schedule in addition to watching for signs from your pupper. Let me know if your dog has special needs or \"I need potty\" indicators.",
+      "collapsible": true
     },
     // {
     // "id": "email",
